@@ -14,23 +14,22 @@ use std::string::String;
 
 fn main(){
 
-  let args = os::args();
+    match os::args().as_slice().tail() {
+        [ref command, ref title, ref text] =>
+            if command.as_slice() == "post" {
+              post_note(title.as_slice(), text.as_slice());
+            } else {
+                fail!("{} is an unknown command", command);
+            },
+        [ref title] => {
+          let text = get_note(title.as_slice());
 
-  if args[1] == String::from_str("post") {
-
-    let title = args[2].as_slice();
-    let text = args[3].as_slice();
-
-    post_note(title, text);
-
-  }else{
-
-    let title = args[1].as_slice();
-    let text = get_note(title);
-
-    println!("{}", text);
-
-  }
+          println!("{}", text);
+        },
+        args => {
+            fail!("Unexpected combination of arguments: {}", args);
+        }
+    }
 
 }
 
