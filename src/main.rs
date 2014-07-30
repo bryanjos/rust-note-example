@@ -15,12 +15,13 @@ use std::string::String;
 fn main(){
 
     match os::args().as_slice().tail() {
-        [ref command, ref title, ref text] =>
+        [ref command, ref title, ref text] => {
             if command.as_slice() == "post" {
               post_note(title.as_slice(), text.as_slice());
             } else {
                 fail!("{} is an unknown command", command);
-            },
+            }
+        },
         [ref title] => {
           let text = get_note(title.as_slice());
 
