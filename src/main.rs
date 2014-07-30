@@ -2,15 +2,14 @@ use std::os;
 use std::io::File;
 use std::string::String;
 
-/*
-  A small example of a commandline app in rust.
-  Saves and returns notes.
-  Ex. To create note
-  > ./note post <title> <text>
-
-  Ex. To get the note back
-  > ./note <title>
-*/
+//! A small example of a commandline app in rust.
+//! Saves and returns notes.
+//! Ex. To create note
+//! > ./note post <title> <text>
+//!
+//! Ex. To get the note back
+//! > ./note <title>
+//!
 
 fn main(){
 
