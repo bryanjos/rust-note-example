@@ -14,45 +14,49 @@ use std::string::String;
 // Ex. To get the note back
 // > ./note <title>
 
-fn main(){
+fn main() -> (){
 
-  let args = os::args();
+    match os::args().as_slice().tail() {
+        [ref command, ref title, ref text] => {
+            if command.as_slice() == "post" {
+              post_note(title.as_slice(), text.as_slice());
+            } else {
+                fail!("{} is an unknown command", command);
+            }
+        },
+        [ref title] => {
+          let text = get_note(title.as_slice());
 
-  if args[1] == String::from_str("post") {
-
-    let title = args[2].as_slice();
-    let text = args[3].as_slice();
-
-    post_note(title, text);
-
-  }else{
-
-    let title = args[1].as_slice();
-    let text = get_note(title);
-
-    println!("{}", text);
-
-  }
+          println!("{}", text);
+        },
+        args => {
+            fail!("Unexpected combination of arguments: {}", args);
+        }
+    }
 
 }
 
 fn post_note(title:&str, text:&str) -> () {
 
-  let file_name = String::from_str(title).append(".txt");
-
-  let mut file = File::create(&Path::new(file_name));
+  let path = get_path(title);
+  let mut file = File::create(&path);
   let _ = file.write(text.as_bytes());
 
 }
 
 fn get_note(title:&str) -> String {
 
-  let file_name = String::from_str(title).append(".txt");
+  let path = get_path(title);
+  let contents = File::open(&path).read_to_string();
 
-  let contents = File::open(&Path::new(file_name)).read_to_string();
   return match contents {
     Ok(s) => s,
     _ => fail!("Could not find note")
   }
 
+}
+
+fn get_path(title:&str) -> Path {
+  let file_name = String::from_str(title).append(".txt");
+  return Path::new(file_name);
 }
