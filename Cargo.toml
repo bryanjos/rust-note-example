@@ -1,5 +1,5 @@
 [package]
 
 name = "note"
-version = "0.1.0"
-authors = [ "bryanjos@gmail.com" ]
+version = "0.0.1"
+authors = ["Bryan Joseph <bryanjos@gmail.com>"]
