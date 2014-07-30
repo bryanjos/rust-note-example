@@ -12,7 +12,7 @@ use std::string::String;
   > ./target/note <title>
 */
 
-fn main(){
+fn main() -> (){
 
     match os::args().as_slice().tail() {
         [ref command, ref title, ref text] => {
@@ -36,21 +36,25 @@ fn main(){
 
 fn post_note(title:&str, text:&str) -> () {
 
-  let file_name = String::from_str(title).append(".txt");
-
-  let mut file = File::create(&Path::new(file_name));
+  let path = get_path(title);
+  let mut file = File::create(&path);
   let _ = file.write(text.as_bytes());
 
 }
 
 fn get_note(title:&str) -> String {
 
-  let file_name = String::from_str(title).append(".txt");
+  let path = get_path(title);
+  let contents = File::open(&path).read_to_string();
 
-  let contents = File::open(&Path::new(file_name)).read_to_string();
   return match contents {
     Ok(s) => s,
     _ => fail!("Could not find note")
   }
 
+}
+
+fn get_path(title:&str) -> Path {
+  let file_name = String::from_str(title).append(".txt");
+  return Path::new(file_name);
 }
