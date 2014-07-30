@@ -1,0 +1,5 @@
+[package]
+
+name = "note"
+version = "0.0.1"
+authors = ["Bryan Joseph <email>"]
