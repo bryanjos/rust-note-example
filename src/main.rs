@@ -1,3 +1,6 @@
+#![crate_name = "note"]
+#![crate_type = "bin"]
+
 use std::os;
 use std::io::File;
 use std::string::String;
