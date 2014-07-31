@@ -14,8 +14,7 @@ use std::string::String;
 // Ex. To get the note back
 // > ./note <title>
 
-fn main() -> (){
-
+fn main() {
     match os::args().as_slice().tail() {
         [ref command, ref title, ref text] => {
             if command.as_slice() == "post" {
@@ -33,30 +32,25 @@ fn main() -> (){
             fail!("Unexpected combination of arguments: {}", args);
         }
     }
-
 }
 
-fn post_note(title:&str, text:&str) -> () {
-
+fn post_note(title:&str, text:&str) {
   let path = get_path(title);
+
   let mut file = File::create(&path);
   let _ = file.write(text.as_bytes());
-
 }
 
 fn get_note(title:&str) -> String {
-
   let path = get_path(title);
-  let contents = File::open(&path).read_to_string();
 
-  return match contents {
+  match File::open(&path).read_to_string() {
     Ok(s) => s,
     _ => fail!("Could not find note")
   }
-
 }
 
 fn get_path(title:&str) -> Path {
   let file_name = String::from_str(title).append(".txt");
-  return Path::new(file_name);
+  Path::new(file_name)
 }
